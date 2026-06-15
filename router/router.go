@@ -218,6 +218,7 @@ func Create(db *database.GormDatabase, vInfo *model.VersionInfo, conf *config.Co
 		message := clientAuth.Group("/message")
 		{
 			message.GET("", messageHandler.GetMessages)
+			message.GET("/count", messageHandler.GetMessageCount)
 			message.DELETE("", messageHandler.DeleteMessages)
 			message.DELETE("/:id", messageHandler.DeleteMessage)
 		}

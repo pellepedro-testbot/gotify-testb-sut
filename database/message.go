@@ -93,3 +93,13 @@ func (d *GormDatabase) DeleteMessagesByUser(userID uint) error {
 	}
 	return nil
 }
+
+// CountMessagesByUser returns the total number of messages belonging to a user.
+func (d *GormDatabase) CountMessagesByUser(userID uint) (int64, error) {
+	var count int64
+	err := d.DB.Model(&model.Message{}).
+		Joins("JOIN applications ON applications.user_id = ?", userID).
+		Where("messages.application_id = applications.id").
+		Count(&count).Error
+	return count, err
+}

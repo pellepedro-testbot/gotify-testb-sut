@@ -24,6 +24,7 @@ type MessageDatabase interface {
 	DeleteMessagesByUser(userID uint) error
 	DeleteMessagesByApplication(applicationID uint) error
 	CreateMessage(message *model.Message) error
+	CountMessagesByUser(userID uint) (int64, error)
 }
 
 var timeNow = time.Now
@@ -445,4 +446,34 @@ func toExternalMessages(msg []*model.Message) []*model.MessageExternal {
 		res[i] = toExternalMessage(msg[i])
 	}
 	return res
+}
+
+// GetMessageCount returns the total number of messages for the authenticated user.
+// swagger:operation GET /message/count message getMessageCount
+//
+// Return the number of messages for the current user.
+//
+//	---
+//	produces: [application/json]
+//	security: [clientTokenAuthorizationHeader: [], clientTokenHeader: [], clientTokenQuery: [], basicAuth: []]
+//	responses:
+//	  200:
+//	    description: Ok
+//	    schema:
+//	        $ref: "#/definitions/MessageCount"
+//	  401:
+//	    description: Unauthorized
+//	    schema:
+//	        $ref: "#/definitions/Error"
+//	  403:
+//	    description: Forbidden
+//	    schema:
+//	        $ref: "#/definitions/Error"
+func (a *MessageAPI) GetMessageCount(ctx *gin.Context) {
+	userID := auth.GetUserID(ctx)
+	count, err := a.DB.CountMessagesByUser(userID)
+	if success := successOrAbort(ctx, 500, err); !success {
+		return
+	}
+	ctx.JSON(200, model.MessageCount{Count: count})
 }
