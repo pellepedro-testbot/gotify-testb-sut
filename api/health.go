@@ -20,6 +20,10 @@ type HealthAPI struct {
 //
 // Get health information.
 //
+// The endpoint checks the database connectivity and reports overall service
+// health. A 200 response indicates all subsystems are operational; a 500
+// response indicates the database is unreachable but the server is still up.
+//
 //	---
 //	produces: [application/json]
 //	responses:
@@ -28,7 +32,7 @@ type HealthAPI struct {
 //	    schema:
 //	        $ref: "#/definitions/Health"
 //	  500:
-//	    description: Ok
+//	    description: Server Error
 //	    schema:
 //	        $ref: "#/definitions/Health"
 func (a *HealthAPI) Health(ctx *gin.Context) {
