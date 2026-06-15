@@ -64,4 +64,9 @@ type Application struct {
 	// required: true
 	// example: a1
 	SortKey string `gorm:"type:bytes;uniqueIndex:uix_application_user_id_sort_key,priority:2,length:255" form:"sortKey" query:"sortKey" json:"sortKey"`
+	// The first four characters of the application token, useful for token identification without exposing the full secret.
+	//
+	// read only: true
+	// example: AWH0
+	TokenPrefix string `gorm:"-" json:"tokenPrefix"`
 }
