@@ -183,7 +183,7 @@ func (a *MessageAPI) GetMessagesWithApplication(ctx *gin.Context) {
 			if success := successOrAbort(ctx, 500, err); !success {
 				return
 			}
-			if app != nil && app.UserID == auth.GetUserID(ctx) {
+			if AppOwnedByUser(ctx, app) {
 				// the +1 is used to check if there are more messages and will be removed on buildWithPaging
 				messages, err := a.DB.GetMessagesByApplicationSince(id, params.Limit+1, params.Since)
 				if success := successOrAbort(ctx, 500, err); !success {
@@ -261,7 +261,7 @@ func (a *MessageAPI) DeleteMessageWithApplication(ctx *gin.Context) {
 		if success := successOrAbort(ctx, 500, err); !success {
 			return
 		}
-		if application != nil && application.UserID == auth.GetUserID(ctx) {
+		if AppOwnedByUser(ctx, application) {
 			successOrAbort(ctx, 500, a.DB.DeleteMessagesByApplication(id))
 		} else {
 			ctx.AbortWithError(404, errors.New("application does not exists"))
