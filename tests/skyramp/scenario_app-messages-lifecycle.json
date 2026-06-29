@@ -1,0 +1,80 @@
+[
+  {
+    "Source": "192.168.65.1:39998",
+    "Destination": "localhost",
+    "RequestBody": "{\"name\": \"testapp-lifecycle\", \"description\": \"Test application for ownership lifecycle\"}",
+    "ResponseBody": "{\"id\": 1, \"token\": \"apptoken123\", \"name\": \"testapp-lifecycle\", \"description\": \"Test application for ownership lifecycle\", \"internal\": false, \"image\": \"static/defaultapp.png\"}",
+    "RequestHeaders": {
+      "Content-Type": [
+        "application/json"
+      ],
+      "X-Gotify-Key": [
+        "SKYRAMP_PLACEHOLDER_TOKEN"
+      ]
+    },
+    "ResponseHeaders": {
+      "Content-Type": [
+        "application/json"
+      ]
+    },
+    "Method": "POST",
+    "Path": "/application",
+    "QueryParams": {},
+    "StatusCode": 201,
+    "Port": 8080,
+    "Timestamp": "2026-06-29T22:19:46.654Z",
+    "Scheme": "http"
+  },
+  {
+    "Source": "192.168.65.1:39998",
+    "Destination": "localhost",
+    "RequestBody": "",
+    "ResponseBody": "{\"messages\": [], \"paging\": {\"limit\": 100, \"size\": 0, \"next\": \"\"}}",
+    "RequestHeaders": {
+      "Content-Type": [
+        "application/json"
+      ],
+      "X-Gotify-Key": [
+        "SKYRAMP_PLACEHOLDER_TOKEN"
+      ]
+    },
+    "ResponseHeaders": {
+      "Content-Type": [
+        "application/json"
+      ]
+    },
+    "Method": "GET",
+    "Path": "/application/1/message",
+    "QueryParams": {},
+    "StatusCode": 200,
+    "Port": 8080,
+    "Timestamp": "2026-06-29T22:19:46.654Z",
+    "Scheme": "http"
+  },
+  {
+    "Source": "192.168.65.1:39998",
+    "Destination": "localhost",
+    "RequestBody": "",
+    "ResponseBody": "{}",
+    "RequestHeaders": {
+      "Content-Type": [
+        "application/json"
+      ],
+      "X-Gotify-Key": [
+        "SKYRAMP_PLACEHOLDER_TOKEN"
+      ]
+    },
+    "ResponseHeaders": {
+      "Content-Type": [
+        "application/json"
+      ]
+    },
+    "Method": "DELETE",
+    "Path": "/application/1/message",
+    "QueryParams": {},
+    "StatusCode": 204,
+    "Port": 8080,
+    "Timestamp": "2026-06-29T22:19:46.654Z",
+    "Scheme": "http"
+  }
+]
