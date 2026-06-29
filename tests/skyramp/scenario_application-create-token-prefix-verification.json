@@ -1,0 +1,54 @@
+[
+  {
+    "Source": "192.168.65.1:39998",
+    "Destination": "localhost",
+    "RequestBody": "{\"name\": \"prefix-test-app-1751232000\", \"description\": \"TokenPrefix verification test\"}",
+    "ResponseBody": "{\"id\": 1, \"name\": \"prefix-test-app-1751232000\", \"token\": \"Ak9xPq2r7m1n\", \"tokenPrefix\": \"Ak9x\", \"description\": \"TokenPrefix verification test\", \"internal\": false, \"defaultPriority\": 0, \"image\": \"static/defaultapp.png\", \"sortKey\": \"a0\"}",
+    "RequestHeaders": {
+      "Content-Type": [
+        "application/json"
+      ],
+      "X-Gotify-Key": [
+        "SKYRAMP_PLACEHOLDER_TOKEN"
+      ]
+    },
+    "ResponseHeaders": {
+      "Content-Type": [
+        "application/json"
+      ]
+    },
+    "Method": "POST",
+    "Path": "/application",
+    "QueryParams": {},
+    "StatusCode": 200,
+    "Port": 8080,
+    "Timestamp": "2026-06-29T22:23:31.546Z",
+    "Scheme": "http"
+  },
+  {
+    "Source": "192.168.65.1:39998",
+    "Destination": "localhost",
+    "RequestBody": "",
+    "ResponseBody": "[{\"id\": 1, \"tokenPrefix\": \"Ak9x\", \"name\": \"prefix-test-app-1751232000\", \"description\": \"TokenPrefix verification test\", \"internal\": false, \"defaultPriority\": 0, \"image\": \"static/defaultapp.png\", \"sortKey\": \"a0\"}]",
+    "RequestHeaders": {
+      "Content-Type": [
+        "application/json"
+      ],
+      "X-Gotify-Key": [
+        "SKYRAMP_PLACEHOLDER_TOKEN"
+      ]
+    },
+    "ResponseHeaders": {
+      "Content-Type": [
+        "application/json"
+      ]
+    },
+    "Method": "GET",
+    "Path": "/application",
+    "QueryParams": {},
+    "StatusCode": 200,
+    "Port": 8080,
+    "Timestamp": "2026-06-29T22:23:31.547Z",
+    "Scheme": "http"
+  }
+]
