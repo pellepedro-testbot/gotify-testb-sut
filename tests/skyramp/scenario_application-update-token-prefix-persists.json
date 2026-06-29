@@ -1,0 +1,80 @@
+[
+  {
+    "Source": "192.168.65.1:39998",
+    "Destination": "localhost",
+    "RequestBody": "{\"name\": \"update-prefix-app-1751232001\", \"description\": \"Update prefix test\"}",
+    "ResponseBody": "{\"id\": 1, \"name\": \"update-prefix-app-1751232001\", \"token\": \"Bm7yQr3s8t2u\", \"tokenPrefix\": \"Bm7y\", \"description\": \"Update prefix test\", \"internal\": false, \"defaultPriority\": 0, \"image\": \"static/defaultapp.png\", \"sortKey\": \"a0\"}",
+    "RequestHeaders": {
+      "Content-Type": [
+        "application/json"
+      ],
+      "X-Gotify-Key": [
+        "SKYRAMP_PLACEHOLDER_TOKEN"
+      ]
+    },
+    "ResponseHeaders": {
+      "Content-Type": [
+        "application/json"
+      ]
+    },
+    "Method": "POST",
+    "Path": "/application",
+    "QueryParams": {},
+    "StatusCode": 200,
+    "Port": 8080,
+    "Timestamp": "2026-06-29T22:23:36.985Z",
+    "Scheme": "http"
+  },
+  {
+    "Source": "192.168.65.1:39998",
+    "Destination": "localhost",
+    "RequestBody": "{\"name\": \"update-prefix-app-renamed-1751232001\", \"description\": \"Updated description\"}",
+    "ResponseBody": "{\"id\": 1, \"name\": \"update-prefix-app-renamed-1751232001\", \"tokenPrefix\": \"Bm7y\", \"description\": \"Updated description\", \"internal\": false, \"defaultPriority\": 0, \"image\": \"static/defaultapp.png\", \"sortKey\": \"a0\"}",
+    "RequestHeaders": {
+      "Content-Type": [
+        "application/json"
+      ],
+      "X-Gotify-Key": [
+        "SKYRAMP_PLACEHOLDER_TOKEN"
+      ]
+    },
+    "ResponseHeaders": {
+      "Content-Type": [
+        "application/json"
+      ]
+    },
+    "Method": "PUT",
+    "Path": "/application/1",
+    "QueryParams": {},
+    "StatusCode": 200,
+    "Port": 8080,
+    "Timestamp": "2026-06-29T22:23:36.985Z",
+    "Scheme": "http"
+  },
+  {
+    "Source": "192.168.65.1:39998",
+    "Destination": "localhost",
+    "RequestBody": "",
+    "ResponseBody": "[{\"id\": 1, \"tokenPrefix\": \"Bm7y\", \"name\": \"update-prefix-app-renamed-1751232001\", \"internal\": false, \"defaultPriority\": 0, \"image\": \"static/defaultapp.png\", \"sortKey\": \"a0\"}]",
+    "RequestHeaders": {
+      "Content-Type": [
+        "application/json"
+      ],
+      "X-Gotify-Key": [
+        "SKYRAMP_PLACEHOLDER_TOKEN"
+      ]
+    },
+    "ResponseHeaders": {
+      "Content-Type": [
+        "application/json"
+      ]
+    },
+    "Method": "GET",
+    "Path": "/application",
+    "QueryParams": {},
+    "StatusCode": 200,
+    "Port": 8080,
+    "Timestamp": "2026-06-29T22:23:36.985Z",
+    "Scheme": "http"
+  }
+]

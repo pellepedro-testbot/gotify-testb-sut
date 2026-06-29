@@ -87,7 +87,7 @@ func (s *ApplicationSuite) Test_ensureApplicationHasCorrectJsonRepresentation() 
 		SortKey:     "a1",
 		CreatedAt:   testdb.Now,
 	}
-	test.JSONEquals(s.T(), actual, `{"id":1,"token":"Aasdasfgeeg","name":"myapp","description":"mydesc", "image": "asd", "internal":true, "defaultPriority":0, "createdAt":"2020-01-01T00:00:00Z", "lastUsed":null, "sortKey":"a1"}`)
+	test.JSONEquals(s.T(), actual, `{"id":1,"token":"Aasdasfgeeg","name":"myapp","description":"mydesc", "image": "asd", "internal":true, "defaultPriority":0, "createdAt":"2020-01-01T00:00:00Z", "lastUsed":null, "sortKey":"a1", "tokenPrefix":""}`)
 }
 
 func (s *ApplicationSuite) Test_CreateApplication_expectBadRequestOnEmptyName() {
@@ -135,6 +135,7 @@ func (s *ApplicationSuite) Test_CreateApplication_ignoresReadOnlyPropertiesInPar
 	var got model.Application
 	assert.Nil(s.T(), json.Unmarshal(bodyBytes, &got))
 	expected.Token = got.Token
+	expected.TokenPrefix = got.TokenPrefix
 	assert.Equal(s.T(), expected, &got)
 	tokenParsed, err := auth.ParseEnhancedToken(got.Token)
 	assert.Nil(s.T(), err)
@@ -171,6 +172,7 @@ func (s *ApplicationSuite) Test_CreateApplication_onlyRequiredParameters() {
 	var got model.Application
 	assert.Nil(s.T(), json.Unmarshal(bodyBytes, &got))
 	expected.Token = got.Token
+	expected.TokenPrefix = got.TokenPrefix
 	assert.Equal(s.T(), expected, &got)
 	tokenParsed, err := auth.ParseEnhancedToken(got.Token)
 	assert.Nil(s.T(), err)
@@ -200,6 +202,7 @@ func (s *ApplicationSuite) Test_CreateApplication_returnsApplicationWithID() {
 	var got model.Application
 	assert.Nil(s.T(), json.Unmarshal(bodyBytes, &got))
 	expected.Token = got.Token
+	expected.TokenPrefix = got.TokenPrefix
 	assert.Equal(s.T(), expected, &got)
 	tokenParsed, err := auth.ParseEnhancedToken(got.Token)
 	assert.Nil(s.T(), err)
@@ -278,6 +281,8 @@ func (s *ApplicationSuite) Test_GetApplications() {
 	assert.Equal(s.T(), 200, s.recorder.Code)
 	first.Image = "static/defaultapp.png"
 	second.Image = "static/defaultapp.png"
+	first.TokenPrefix = first.Token[:4]
+	second.TokenPrefix = second.Token[:4]
 	first.Token = ""
 	second.Token = ""
 	test.BodyEquals(s.T(), []*model.Application{first, second}, s.recorder)
@@ -298,6 +303,8 @@ func (s *ApplicationSuite) Test_GetApplications_WithImage() {
 	assert.Equal(s.T(), 200, s.recorder.Code)
 	first.Image = "image/abcd.jpg"
 	second.Image = "static/defaultapp.png"
+	first.TokenPrefix = first.Token[:4]
+	second.TokenPrefix = second.Token[:4]
 	first.Token = ""
 	second.Token = ""
 	test.BodyEquals(s.T(), []*model.Application{first, second}, s.recorder)
