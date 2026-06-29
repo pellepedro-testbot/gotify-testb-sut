@@ -15,6 +15,19 @@ type Message struct {
 	Date          time.Time
 }
 
+// MessageCount Model
+//
+// MessageCount holds the total number of messages for a user.
+//
+// swagger:model MessageCount
+type MessageCount struct {
+	// The total number of messages.
+	//
+	// required: true
+	// example: 42
+	Count int64 `json:"count"`
+}
+
 // MessageExternal Model
 //
 // The MessageExternal holds information about a message which was sent by an Application.
