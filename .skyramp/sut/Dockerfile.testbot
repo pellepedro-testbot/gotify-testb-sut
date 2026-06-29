@@ -1,0 +1,44 @@
+# Stage 1: Build JavaScript UI (required — ui/serve.go uses //go:embed build/*)
+FROM node:24 AS js-builder
+
+WORKDIR /src/gotify
+
+COPY Makefile ./
+COPY ui ./ui
+
+RUN cd ui && yarn install --frozen-lockfile && cd .. && make build-js
+
+# Stage 2: Build Go binary (CGO enabled for mattn/go-sqlite3)
+FROM golang:1.26.0 AS go-builder
+
+RUN apt-get update && apt-get install -yq --no-install-recommends gcc libc6-dev && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /src/gotify
+
+COPY go.mod go.sum ./
+RUN go mod download
+
+COPY . .
+COPY --from=js-builder /src/gotify/ui/build ./ui/build
+
+RUN CGO_ENABLED=1 GOOS=linux go build -mod=readonly -a -ldflags "-s -w" -o /gotify-app .
+
+# Stage 3: Runtime
+FROM debian:bookworm-slim
+
+RUN apt-get update && apt-get install -yq --no-install-recommends \
+    tzdata curl ca-certificates && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+COPY --from=go-builder /gotify-app ./gotify-app
+
+ENV GOTIFY_SERVER_PORT=8080
+
+HEALTHCHECK --interval=10s --timeout=5s --start-period=120s --retries=12 \
+    CMD curl -sf "http://localhost:8080/health" || exit 1
+
+EXPOSE 8080
+
+ENTRYPOINT ["./gotify-app"]
+CMD ["serve"]
