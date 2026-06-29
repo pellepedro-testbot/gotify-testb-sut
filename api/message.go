@@ -68,6 +68,11 @@ type pagingParams struct {
 //	  required: false
 //	  type: integer
 //	  format: int64
+//	- name: priority
+//	  in: query
+//	  description: if set, return only messages with this exact priority value
+//	  required: false
+//	  type: integer
 //	responses:
 //	  200:
 //	    description: Ok
@@ -87,14 +92,43 @@ type pagingParams struct {
 //	        $ref: "#/definitions/Error"
 func (a *MessageAPI) GetMessages(ctx *gin.Context) {
 	userID := auth.GetUserID(ctx)
+	priorityFilter, hasPriority := parsePriorityFilter(ctx)
 	withPaging(ctx, func(params *pagingParams) {
 		// the +1 is used to check if there are more messages and will be removed on buildWithPaging
 		messages, err := a.DB.GetMessagesByUserSince(userID, params.Limit+1, params.Since)
 		if success := successOrAbort(ctx, 500, err); !success {
 			return
 		}
+		if hasPriority {
+			messages = filterMessagesByPriority(messages, priorityFilter)
+		}
 		ctx.JSON(200, buildWithPaging(ctx, params, messages))
 	})
+}
+
+// parsePriorityFilter reads the optional ?priority= query parameter.
+// It returns the priority value and true when the parameter is present and valid.
+func parsePriorityFilter(ctx *gin.Context) (int, bool) {
+	raw := ctx.Query("priority")
+	if raw == "" {
+		return 0, false
+	}
+	val, err := strconv.Atoi(raw)
+	if err != nil {
+		return 0, false
+	}
+	return val, true
+}
+
+// filterMessagesByPriority returns only those messages whose priority equals p.
+func filterMessagesByPriority(msgs []*model.Message, p int) []*model.Message {
+	out := msgs[:0]
+	for _, m := range msgs {
+		if m.Priority == p {
+			out = append(out, m)
+		}
+	}
+	return out
 }
 
 func buildWithPaging(ctx *gin.Context, paging *pagingParams, messages []*model.Message) *model.PagedMessages {
