@@ -452,6 +452,11 @@ func withResolvedImage(app *model.Application) *model.Application {
 	} else {
 		app.Image = "image/" + app.Image
 	}
+	if len(app.Token) >= 4 {
+		app.TokenPrefix = app.Token[:4]
+	} else {
+		app.TokenPrefix = app.Token
+	}
 	return app
 }
 
