@@ -1,0 +1,110 @@
+[
+  {
+    "Source": "192.168.65.1:39998",
+    "Destination": "localhost",
+    "RequestBody": "{\"name\": \"ExactMatchApp-1750000000\"}",
+    "ResponseBody": "{\"id\": 1}",
+    "RequestHeaders": {
+      "Content-Type": [
+        "application/json"
+      ],
+      "X-Gotify-Key": [
+        "SKYRAMP_PLACEHOLDER_TOKEN"
+      ]
+    },
+    "ResponseHeaders": {
+      "Content-Type": [
+        "application/json"
+      ]
+    },
+    "Method": "POST",
+    "Path": "/application",
+    "QueryParams": {},
+    "StatusCode": 201,
+    "Port": 8080,
+    "Timestamp": "2026-06-29T22:25:08.657Z",
+    "Scheme": "http"
+  },
+  {
+    "Source": "192.168.65.1:39998",
+    "Destination": "localhost",
+    "RequestBody": "{\"appid\": 1, \"title\": \"TargetMsg\", \"message\": \"Target priority-5 message\", \"priority\": 5}",
+    "ResponseBody": "{\"id\": 1, \"priority\": 5}",
+    "RequestHeaders": {
+      "Content-Type": [
+        "application/json"
+      ],
+      "X-Gotify-Key": [
+        "SKYRAMP_PLACEHOLDER_TOKEN"
+      ]
+    },
+    "ResponseHeaders": {
+      "Content-Type": [
+        "application/json"
+      ]
+    },
+    "Method": "POST",
+    "Path": "/message",
+    "QueryParams": {},
+    "StatusCode": 200,
+    "Port": 8080,
+    "Timestamp": "2026-06-29T22:25:08.657Z",
+    "Scheme": "http"
+  },
+  {
+    "Source": "192.168.65.1:39998",
+    "Destination": "localhost",
+    "RequestBody": "{\"appid\": 1, \"title\": \"OtherMsg\", \"message\": \"Other priority-1 message\", \"priority\": 1}",
+    "ResponseBody": "{\"id\": 2, \"priority\": 1}",
+    "RequestHeaders": {
+      "Content-Type": [
+        "application/json"
+      ],
+      "X-Gotify-Key": [
+        "SKYRAMP_PLACEHOLDER_TOKEN"
+      ]
+    },
+    "ResponseHeaders": {
+      "Content-Type": [
+        "application/json"
+      ]
+    },
+    "Method": "POST",
+    "Path": "/message",
+    "QueryParams": {},
+    "StatusCode": 200,
+    "Port": 8080,
+    "Timestamp": "2026-06-29T22:25:08.657Z",
+    "Scheme": "http"
+  },
+  {
+    "Source": "192.168.65.1:39998",
+    "Destination": "localhost",
+    "RequestBody": "",
+    "ResponseBody": "{\"paging\": {\"size\": 1, \"limit\": 100}, \"messages\": [{\"priority\": 5}]}",
+    "RequestHeaders": {
+      "Content-Type": [
+        "application/json"
+      ],
+      "X-Gotify-Key": [
+        "SKYRAMP_PLACEHOLDER_TOKEN"
+      ]
+    },
+    "ResponseHeaders": {
+      "Content-Type": [
+        "application/json"
+      ]
+    },
+    "Method": "GET",
+    "Path": "/message",
+    "QueryParams": {
+      "priority": [
+        "5"
+      ]
+    },
+    "StatusCode": 200,
+    "Port": 8080,
+    "Timestamp": "2026-06-29T22:25:08.657Z",
+    "Scheme": "http"
+  }
+]
