@@ -649,6 +649,65 @@ func (s *MessageSuite) Test_CreateMessage_appToken_ignoresBodyAppId() {
 	assert.Equal(s.T(), 200, s.recorder.Code)
 }
 
+func (s *MessageSuite) Test_GetMessages_WithPriorityFilter() {
+	user := s.db.User(5)
+	user.App(1)
+	msgPrio5 := model.Message{ID: 1, ApplicationID: 1, Priority: 5}
+	s.db.CreateMessage(&msgPrio5)
+	msgPrio1 := model.Message{ID: 2, ApplicationID: 1, Priority: 1}
+	s.db.CreateMessage(&msgPrio1)
+
+	s.withURL("http", "example.com", "/messages", "priority=5")
+	test.WithUser(s.ctx, 5)
+	s.a.GetMessages(s.ctx)
+
+	externalPrio5 := toExternalMessage(&msgPrio5)
+	expected := &model.PagedMessages{
+		Paging:   model.Paging{Limit: 100, Size: 1, Next: ""},
+		Messages: []*model.MessageExternal{externalPrio5},
+	}
+	test.BodyEquals(s.T(), expected, s.recorder)
+}
+
+func (s *MessageSuite) Test_GetMessages_WithPriorityFilter_NoMatch() {
+	user := s.db.User(5)
+	user.App(1)
+	msgPrio5 := model.Message{ID: 1, ApplicationID: 1, Priority: 5}
+	s.db.CreateMessage(&msgPrio5)
+
+	s.withURL("http", "example.com", "/messages", "priority=99")
+	test.WithUser(s.ctx, 5)
+	s.a.GetMessages(s.ctx)
+
+	assert.Equal(s.T(), 200, s.recorder.Code)
+	expected := &model.PagedMessages{
+		Paging:   model.Paging{Limit: 100, Size: 0, Next: ""},
+		Messages: toExternalMessages([]*model.Message{}),
+	}
+	test.BodyEquals(s.T(), expected, s.recorder)
+}
+
+func (s *MessageSuite) Test_GetMessages_WithPriorityFilter_InvalidValue() {
+	user := s.db.User(5)
+	user.App(1)
+	msgPrio5 := model.Message{ID: 1, ApplicationID: 1, Priority: 5}
+	s.db.CreateMessage(&msgPrio5)
+	msgPrio1 := model.Message{ID: 2, ApplicationID: 1, Priority: 1}
+	s.db.CreateMessage(&msgPrio1)
+
+	s.withURL("http", "example.com", "/messages", "priority=notanumber")
+	test.WithUser(s.ctx, 5)
+	s.a.GetMessages(s.ctx)
+
+	externalPrio5 := toExternalMessage(&msgPrio5)
+	externalPrio1 := toExternalMessage(&msgPrio1)
+	expected := &model.PagedMessages{
+		Paging:   model.Paging{Limit: 100, Size: 2, Next: ""},
+		Messages: []*model.MessageExternal{externalPrio1, externalPrio5},
+	}
+	test.BodyEquals(s.T(), expected, s.recorder)
+}
+
 func (s *MessageSuite) withURL(scheme, host, path, query string) {
 	s.ctx.Request.URL = &url.URL{Path: path, RawQuery: query}
 	s.ctx.Set("location", &url.URL{Scheme: scheme, Host: host})
